@@ -28,9 +28,10 @@ namespace Evorine.Engine.FileProviders.S3
         {
             this.amazonS3 = amazonS3;
             this.bucketName = bucketName;
-            this.subpath = subpath;
+            this.subpath = subpath.TrimEnd('/') + "/";
         }
-        
+
+        bool isRoot => subpath == "/";
 
         /// <summary>
         /// True if a directory is located at the given path. 
@@ -41,18 +42,28 @@ namespace Evorine.Engine.FileProviders.S3
             {
                 try
                 {
+                    // Root folder always exists
+                    if (isRoot)
+                        return true;
+
                     amazonS3.GetObjectMetadataAsync(bucketName, subpath).Wait();
                     return true;
                 }
-                catch(AmazonS3Exception e)
+                catch(AggregateException e)
                 {
-                    if (e.StatusCode == HttpStatusCode.NotFound) return false;
-                    throw;
+                    e.Handle(ie => 
+                    {
+                        if (ie is AmazonS3Exception _ie)
+                        {
+                            if (_ie.StatusCode == HttpStatusCode.NotFound) return true;
+                        }
+                        return false;
+                    });
+                    return false;
                 }
-                
             }
         }
-
+        
         /// <inheritdoc />
         public IEnumerator<IFileInfo> GetEnumerator()
         {
@@ -69,9 +80,22 @@ namespace Evorine.Engine.FileProviders.S3
 
         private void enumerateContents()
         {
-            contents = amazonS3.GetAllObjectKeysAsync(bucketName, subpath, null)
-                               .Result
-                               .Select(x => new S3FileInfo(amazonS3, bucketName, x));
+            var request = new ListObjectsV2Request()
+            {
+                BucketName = bucketName,
+                Delimiter = "/",
+                Prefix = isRoot ? "" : subpath
+            };
+            var response = amazonS3.ListObjectsV2Async(request).Result;
+
+            var files = response.S3Objects
+                                .Where(x => x.Key != subpath)
+                                .Select(x => new S3FileInfo(amazonS3, bucketName, x.Key));
+
+            var directories = response.CommonPrefixes
+                                      .Select(x => new S3FileInfo(amazonS3, bucketName, x));
+
+            contents = directories.Concat(files);
         }
     }
 }

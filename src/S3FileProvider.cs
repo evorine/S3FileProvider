@@ -19,7 +19,7 @@ namespace Evorine.Engine.FileProviders.S3
     {
         private static readonly char[] pathSeparators = new[] { '/' };
         private static readonly char[] invalidFileNameChars = new[] { '\\', '{', '}', '^', '%', '`', '[', ']', '\'', '"', '>', '<', '~', '#', '|' }
-                                                              .Concat(Enumerable.Range(128, 255).Cast<char>())
+                                                              .Concat(Enumerable.Range(128, 255).Select(x => (char)x))
                                                               .ToArray();
 
 

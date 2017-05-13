@@ -17,6 +17,7 @@ namespace Evorine.Engine.FileProviders.S3
 
         private GetObjectResponse _fileObject;
         private bool? _exists;
+        private S3Object x;
 
         public S3FileInfo(IAmazonS3 amazonS3, string bucketName, string key)
         {
@@ -41,7 +42,7 @@ namespace Evorine.Engine.FileProviders.S3
         {
             get
             {
-                if (_exists.HasValue)
+                if (!_exists.HasValue)
                 {
                     try
                     {
@@ -66,9 +67,9 @@ namespace Evorine.Engine.FileProviders.S3
         /// <summary>
         /// A http url to the file, including the file name.
         /// </summary>
-        public string PhysicalPath => $"{getfileObject().BucketName}.s3.amazonaws.com/{getfileObject().Key}";
+        public string PhysicalPath => $"s3-{amazonS3.Config.RegionEndpoint.SystemName}.amazonaws.com/{getfileObject().BucketName}/{getfileObject().Key}";
 
-        public string Name => Path.GetFileName(getfileObject().Key);
+        public string Name => Path.GetFileName(getfileObject().Key.TrimEnd('/'));
 
         public DateTimeOffset LastModified => getfileObject().LastModified;
 
