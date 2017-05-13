@@ -5,40 +5,78 @@ using System.Text;
 using Amazon.S3.Model;
 using System.IO;
 using Amazon.S3;
+using System.Net;
 
 namespace Evorine.Engine.FileProviders.S3
 {
     public class S3FileInfo : IFileInfo
     {
-        private GetObjectResponse fileObject;
-        private IAmazonS3 amazonS3;
-        
-        public S3FileInfo(IAmazonS3 amazonS3, GetObjectResponse fileObject)
+        readonly IAmazonS3 amazonS3;
+        readonly string bucketName;
+        readonly string key;
+
+        private GetObjectResponse _fileObject;
+        private bool? _exists;
+
+        public S3FileInfo(IAmazonS3 amazonS3, string bucketName, string key)
         {
             this.amazonS3 = amazonS3;
-            this.fileObject = fileObject;
+            this.bucketName = bucketName;
+            this.key = key;
+        }
+
+        private GetObjectResponse getfileObject()
+        {
+            if (_fileObject == null)
+            {
+                _fileObject = amazonS3.GetObjectAsync(bucketName, key).Result;
+            }
+            return _fileObject;
         }
 
 
-        public bool Exists => true;
+        public string MD5 => getfileObject().Metadata["Content-MD5"];
 
-        public long Length => fileObject.ContentLength;
+        public bool Exists
+        {
+            get
+            {
+                if (_exists.HasValue)
+                {
+                    try
+                    {
+                        getfileObject();
+                        _exists = true;
+                    }
+                    catch (AmazonS3Exception e)
+                    {
+                        if (e.StatusCode == HttpStatusCode.NotFound) _exists = false;
+                        throw;
+                    }
+                }
+                return _exists.Value;
+            }
+        }
+
+
+
+        public long Length => getfileObject().ContentLength;
 
 
         /// <summary>
         /// A http url to the file, including the file name.
         /// </summary>
-        public string PhysicalPath => $"{fileObject.BucketName}.s3.amazonaws.com/{fileObject.Key}";
+        public string PhysicalPath => $"{getfileObject().BucketName}.s3.amazonaws.com/{getfileObject().Key}";
 
-        public string Name => Path.GetFileName(fileObject.Key);
+        public string Name => Path.GetFileName(getfileObject().Key);
 
-        public DateTimeOffset LastModified => fileObject.LastModified;
+        public DateTimeOffset LastModified => getfileObject().LastModified;
 
-        public bool IsDirectory => fileObject.Key.EndsWith("/");
+        public bool IsDirectory => getfileObject().Key.EndsWith("/");
 
         public Stream CreateReadStream()
         {
-            return fileObject.ResponseStream;
+            return getfileObject().ResponseStream;
         }
     }
 }

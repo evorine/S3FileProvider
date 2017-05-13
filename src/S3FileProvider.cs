@@ -46,7 +46,7 @@ namespace Evorine.Engine.FileProviders.S3
             // Relative paths starting with leading slashes are okay
             subpath = subpath.TrimStart(pathSeparators);
 
-            return new S3DirectoryContents(amazonS3, subpath);
+            return new S3DirectoryContents(amazonS3, bucketName, subpath);
         }
 
 
@@ -66,8 +66,7 @@ namespace Evorine.Engine.FileProviders.S3
             if (string.IsNullOrEmpty(subpath))
                 return new NotFoundFileInfo(subpath);
             
-            var response = amazonS3.GetObjectAsync(bucketName, subpath).Result;
-            return new S3FileInfo(amazonS3, response);
+            return new S3FileInfo(amazonS3, bucketName, subpath);
         }
 
 
