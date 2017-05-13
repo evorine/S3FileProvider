@@ -7,7 +7,7 @@ using Microsoft.Extensions.Primitives;
 using System.IO;
 using System.Linq;
 
-namespace Evorine.Engine.FileProviders.S3
+namespace Evorine.FileSystem.S3FileProvider
 {
     /// <summary>
     /// Looks up files on AWS S3 file system.

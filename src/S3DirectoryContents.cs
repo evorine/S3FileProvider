@@ -8,7 +8,7 @@ using Amazon.S3.Model;
 using System.Net;
 using System.Linq;
 
-namespace Evorine.Engine.FileProviders.S3
+namespace Evorine.FileSystem.S3FileProvider
 {
     /// <summary>
     /// Contents of a S3 directory. Files are the keys prefixed by given 'path'.

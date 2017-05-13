@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace Evorine.Engine.FileProviders.S3.Test
+namespace Evorine.FileSystem.S3FileProvider.Test
 {
     public class UnitTests
     {

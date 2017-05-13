@@ -7,7 +7,7 @@ using System.IO;
 using Amazon.S3;
 using System.Net;
 
-namespace Evorine.Engine.FileProviders.S3
+namespace Evorine.FileSystem.S3FileProvider
 {
     public class S3FileInfo : IFileInfo
     {
