@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Evorine.FileSystem.S3FileProvider", "src\Evorine.FileSystem.S3FileProvider.csproj", "{3F77D233-38C5-454E-A83E-C78B7B8F3489}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D7DC1DEB-4165-4FB0-BC56-9279089C27C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Evorine.FileSystem.S3FileProvider.Test", "test\Evorine.FileSystem.S3FileProvider.Test.csproj", "{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F77D233-38C5-454E-A83E-C78B7B8F3489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F77D233-38C5-454E-A83E-C78B7B8F3489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F77D233-38C5-454E-A83E-C78B7B8F3489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F77D233-38C5-454E-A83E-C78B7B8F3489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF1B7DD7-3AAA-47CA-AD8A-17DD8D1C97DB} = {D7DC1DEB-4165-4FB0-BC56-9279089C27C6}
+	EndGlobalSection
+EndGlobal

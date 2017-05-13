@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Evorine.Engine.FileProviders.S3.csproj" />
+    <ProjectReference Include="..\src\Evorine.FileSystem.S3FileProvider.csproj" />
   </ItemGroup>
 
   <ItemGroup>
