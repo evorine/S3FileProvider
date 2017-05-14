@@ -30,6 +30,23 @@ public void Configure(IApplicationBuilder app)
     // ...
 }
 ```
+Or if you have already registered Amazon S3 services in `ConfigureServices` method:
+```charp
+public void Configure(IApplicationBuilder app)
+{
+    // ...
+    
+    var fileProvider = new S3FileProvider(app.ApplicationServices.GetService<Amazon.S3.IAmazonS3>(), "bucket-name");
+
+    var staticFilesOption = new StaticFileOptions()
+    {
+        FileProvider = fileProvider
+    };
+    app.UseStaticFiles(staticFilesOption);
+    
+    // ...
+}
+```
 That's all!
 
 # ToDos:
