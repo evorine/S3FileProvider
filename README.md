@@ -12,15 +12,25 @@ var fileProvider = new S3FileProvider(amazonS3Service, bucketName);
 ```
 
 ## Using S3 as static files in Asp.Net Core website
+In `Configure` method:
 ```csharp
-var amazonS3 = new Amazon.S3.AmazonS3Client("awsAccessKeyId", "awsSecretAccessKey", Amazon.RegionEndpoint.USWest2);
-var fileProvider = new S3FileProvider(amazonS3, "bucket-name");
-
-var staticFilesOption = new StaticFileOptions()
+public void Configure(IApplicationBuilder app)
 {
-    FileProvider = fileProvider
-};
-app.UseStaticFiles(staticFilesOption);
+    .
+    .
+    .
+    var amazonS3 = new Amazon.S3.AmazonS3Client("awsAccessKeyId", "awsSecretAccessKey", Amazon.RegionEndpoint.USWest2);
+    var fileProvider = new S3FileProvider(amazonS3, "bucket-name");
+
+    var staticFilesOption = new StaticFileOptions()
+    {
+        FileProvider = fileProvider
+    };
+    app.UseStaticFiles(staticFilesOption);
+    .
+    .
+    .
+}
 ```
 That's all!
 
