@@ -1,7 +1,6 @@
 using Amazon;
 using Amazon.S3;
 using Amazon.Util;
-using Evorine.Engine.FileProviders.S3;
 using System;
 using System.IO;
 using System.Linq;
