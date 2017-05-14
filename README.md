@@ -31,7 +31,7 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 Or if you have already registered Amazon S3 services in `ConfigureServices` method:
-```charp
+```csharp
 public void Configure(IApplicationBuilder app)
 {
     // ...
