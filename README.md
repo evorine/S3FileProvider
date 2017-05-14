@@ -16,9 +16,8 @@ In `Configure` method:
 ```csharp
 public void Configure(IApplicationBuilder app)
 {
-    .
-    .
-    .
+    // ...
+    
     var amazonS3 = new Amazon.S3.AmazonS3Client("awsAccessKeyId", "awsSecretAccessKey", Amazon.RegionEndpoint.USWest2);
     var fileProvider = new S3FileProvider(amazonS3, "bucket-name");
 
@@ -27,9 +26,8 @@ public void Configure(IApplicationBuilder app)
         FileProvider = fileProvider
     };
     app.UseStaticFiles(staticFilesOption);
-    .
-    .
-    .
+    
+    // ...
 }
 ```
 That's all!
