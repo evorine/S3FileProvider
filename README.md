@@ -18,7 +18,6 @@ public void Configure(IApplicationBuilder app)
 {
     // ...
     
-    var amazonS3 = new Amazon.S3.AmazonS3Client("awsAccessKeyId", "awsSecretAccessKey", Amazon.RegionEndpoint.USWest2);
     var fileProvider = new S3FileProvider(amazonS3, "bucket-name");
 
     var staticFilesOption = new StaticFileOptions()
@@ -30,22 +29,14 @@ public void Configure(IApplicationBuilder app)
     // ...
 }
 ```
+
+For Amazon S3 Service instance:
+```csharp
+var amazonS3 = new Amazon.S3.AmazonS3Client("awsAccessKeyId", "awsSecretAccessKey", Amazon.RegionEndpoint.USWest2);
+```
 Or if you have already registered Amazon S3 services in `ConfigureServices` method:
 ```csharp
-public void Configure(IApplicationBuilder app)
-{
-    // ...
-    
-    var fileProvider = new S3FileProvider(app.ApplicationServices.GetService<Amazon.S3.IAmazonS3>(), "bucket-name");
-
-    var staticFilesOption = new StaticFileOptions()
-    {
-        FileProvider = fileProvider
-    };
-    app.UseStaticFiles(staticFilesOption);
-    
-    // ...
-}
+var amazonS3 = app.ApplicationServices.GetService<Amazon.S3.IAmazonS3>();
 ```
 That's all!
 
