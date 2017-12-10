@@ -1,14 +1,12 @@
 ﻿// Licensed under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Extensions.FileProviders;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon.S3.Model;
 using System.IO;
-using Amazon.S3;
 using System.Net;
+using Microsoft.Extensions.FileProviders;
+using Amazon.S3;
+using Amazon.S3.Model;
 
 namespace Evorine.FileSystem.S3FileProvider
 {

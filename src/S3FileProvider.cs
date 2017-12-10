@@ -1,14 +1,13 @@
 ﻿// Licensed under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Amazon.S3;
-using Microsoft.Extensions.FileProviders;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Primitives;
 using System.IO;
+using System.Text;
 using System.Linq;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.FileProviders;
+using Amazon.S3;
 
 namespace Evorine.FileSystem.S3FileProvider
 {
@@ -24,7 +23,6 @@ namespace Evorine.FileSystem.S3FileProvider
         private static readonly char[] invalidFileNameChars = new[] { '\\', '{', '}', '^', '%', '`', '[', ']', '\'', '"', '>', '<', '~', '#', '|' }
                                                               .Concat(Enumerable.Range(128, 255).Select(x => (char)x))
                                                               .ToArray();
-
 
         readonly IAmazonS3 amazonS3;
         readonly string bucketName;
@@ -43,8 +41,8 @@ namespace Evorine.FileSystem.S3FileProvider
         
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
-            if (subpath == null || HasInvalidFileNameChars(subpath))
-                return NotFoundDirectoryContents.Singleton;
+            if (subpath == null) throw new ArgumentNullException(nameof(subpath));
+            if (HasInvalidFileNameChars(subpath)) return NotFoundDirectoryContents.Singleton;
 
             // Relative paths starting with leading slashes are okay
             subpath = subpath.TrimStart(pathSeparators);
@@ -57,11 +55,11 @@ namespace Evorine.FileSystem.S3FileProvider
         /// Locates a file at the given path.
         /// </summary>
         /// <param name="subpath">A path under the bucket</param>
-        /// <returns>The file information. Caller must check Exists property. </returns>
+        /// <returns>The file information. Caller must check Exists property.</returns>
         public IFileInfo GetFileInfo(string subpath)
         {
-            if (subpath == null || HasInvalidFileNameChars(subpath))
-                return new NotFoundFileInfo(subpath);
+            if (subpath == null) throw new ArgumentNullException(nameof(subpath));
+            if (HasInvalidFileNameChars(subpath)) return new NotFoundFileInfo(subpath);
 
             // Relative paths starting with leading slashes are okay
             subpath = subpath.TrimStart(pathSeparators);

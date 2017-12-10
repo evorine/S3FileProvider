@@ -43,3 +43,7 @@ That's all!
 # ToDos:
 - Cancellation tokens
 - File and directory watch feature
+
+# Changes:
+## Version Beta2:
+- `S3FileProvider.GetDirectoryContents` and `S3FileProvider.GetFileInfo` throws `ArgumentNullException` if null passed as path.
