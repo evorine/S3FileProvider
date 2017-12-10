@@ -14,13 +14,12 @@ namespace Evorine.FileSystem.S3FileProvider
 {
     public class S3FileInfo : IFileInfo
     {
-        readonly IAmazonS3 amazonS3;
-        readonly string bucketName;
-        readonly string key;
+        private readonly IAmazonS3 amazonS3;
+        private readonly string bucketName;
+        private readonly string key;
 
-        private GetObjectResponse _fileObject;
-        private bool? _exists;
-        private S3Object x;
+        private GetObjectResponse fileObject;
+        private bool? exists;
 
         public S3FileInfo(IAmazonS3 amazonS3, string bucketName, string key)
         {
@@ -31,11 +30,11 @@ namespace Evorine.FileSystem.S3FileProvider
 
         private GetObjectResponse getfileObject()
         {
-            if (_fileObject == null)
+            if (fileObject == null)
             {
-                _fileObject = amazonS3.GetObjectAsync(bucketName, key).Result;
+                fileObject = amazonS3.GetObjectAsync(bucketName, key).Result;
             }
-            return _fileObject;
+            return fileObject;
         }
 
 
@@ -45,20 +44,20 @@ namespace Evorine.FileSystem.S3FileProvider
         {
             get
             {
-                if (!_exists.HasValue)
+                if (!exists.HasValue)
                 {
                     try
                     {
                         getfileObject();
-                        _exists = true;
+                        exists = true;
                     }
                     catch (AmazonS3Exception e)
                     {
-                        if (e.StatusCode == HttpStatusCode.NotFound) _exists = false;
+                        if (e.StatusCode == HttpStatusCode.NotFound) exists = false;
                         throw;
                     }
                 }
-                return _exists.Value;
+                return exists.Value;
             }
         }
 
