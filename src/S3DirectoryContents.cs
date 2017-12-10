@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿// Licensed under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Text;

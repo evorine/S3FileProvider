@@ -1,4 +1,7 @@
-﻿using Amazon.S3;
+﻿// Licensed under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Amazon.S3;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;

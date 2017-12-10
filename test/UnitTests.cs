@@ -1,3 +1,6 @@
+// Licensed under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using Amazon;
 using Amazon.S3;
 using Amazon.Util;
